@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:FoodOrderApp.Views"
+            HeightRequest="40"
+             x:Class="FoodOrderApp.Views.MainTabbedPage">
+    
+    
+    <NavigationPage Title="HOME" Icon="EmptyHeart.png"> 
+        <x:Arguments>
+            <local:ProductsView />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="CART" Icon="EmptyHeart.png">
+        <x:Arguments>
+            <local:CartView />
+        </x:Arguments>
+    </NavigationPage>
+    
+    
+</TabbedPage>

@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:FoodOrderApp.Helpers"
+             xmlns:vm="clr-namespace:FoodOrderApp.ViewModels"
+             xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="LightGray"
+             x:Class="FoodOrderApp.Views.CartView">
+    <ContentPage.BindingContext>
+        <vm:CartViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}"
+             Command="{Binding RefreshCommand}">
+        <ScrollView>
+        <!--#region Pancake Design Receipt -->
+        <Grid RowSpacing="0" RowDefinitions="Auto,Auto,Auto,Auto,Auto" VerticalOptions="StartAndExpand">
+            <Frame Grid.Row="0" Margin="30,90,30,0" HeightRequest="100" >
+                <Grid RowDefinitions="Auto,Auto,Auto" HorizontalOptions="Center">
+                    <Label Grid.Row="0" Text="{Binding TotalCost, StringFormat='₱{0:0,0.00}'}" Style="{StaticResource MainAmount}" Margin="0,20,0,0"/>
+                    <Label Grid.Row="1" Text="{Binding Datenow}" HorizontalOptions="Center" Style="{StaticResource SecundaryText}"/>
+                    <Line  Grid.Row="2" Style="{StaticResource DivisionLine}" />
+                </Grid>
+            </Frame>
+            <Image Grid.Row="0" Source="foodicon" HorizontalOptions="Center" TranslationY="-35" HeightRequest="90" WidthRequest="90"/>
+            <pv:PancakeView Grid.Row="0" CornerRadius="20,0,0,30" TranslationY="90" TranslationX="30" HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="100" HeightRequest="35">
+                <Grid RowDefinitions="*" BackgroundColor="#1277e3" Padding="15,5">
+                    <Label Grid.Row="0" Text="OFFLINE" FontAttributes="Bold" TextColor="White" FontSize="15"/>
+                </Grid>
+            </pv:PancakeView>
+
+
+
+
+            <Frame Grid.Row="1" Margin="30,-15,30,0">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*">
+                    <!-- Product list-->
+                    <CollectionView Grid.Row="1" Grid.Column="0" Margin="0,-15,0,12" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand"
+                            VerticalScrollBarVisibility="Never"
+                            HeightRequest="145"
+                            ItemsSource="{Binding CartItems}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+                                    <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HeightRequest="60" WidthRequest="60" Source="{Binding ImageUrl}" Margin="0,5,0,0"/>
+                                    <Label Grid.Row="0" Grid.Column="1" Text="Title dri sa Product" Margin="0,5,0,0" FontAttributes="Bold" FontSize="16" TextColor="Silver"/>
+                                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding ProductName}" FontAttributes="Bold" FontSize="16" VerticalOptions="End" Margin="0,0,0,5"/>
+                                    <Label Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Text="{Binding Price, StringFormat='₱{0:0,0.00}'}" 
+                                           VerticalOptions="Center" FontSize="18" FontAttributes="Bold"/>
+                                    <Line  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" X1="260" StrokeThickness="0.5" Stroke="Silver"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+                    <!-- Amount of products -->
+                    <Label Grid.Row="2" Grid.Column="0" Text="Subtotal" FontSize="16" TextColor="#4f4f4f" FontAttributes="Bold" Margin="0,0,0,10"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="Discount" FontSize="16" TextColor="#4f4f4f" FontAttributes="Bold"/>
+                    <Label Grid.Row="3" Grid.Column="0" Text="0%" BackgroundColor="Silver" Padding="2" FontSize="10" VerticalTextAlignment="Center" HorizontalOptions="Center" TranslationX="10" TranslationY="-2"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding Cost, StringFormat='₱{0:0,0.00}'}"  FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" HorizontalOptions="End"/>
+                    <Label Grid.Row="3" Grid.Column="1" Text="₱0"  FontSize="18" FontAttributes="Bold" TextColor="#2880e5" HorizontalOptions="End"/>
+                    
+
+                    <!-- Line Division-->
+                    <Line  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,15"
+                    Style="{StaticResource DivisionLine}" />
+                    <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"  Text="Food Store" FontAttributes="Bold" FontSize="16" HorizontalOptions="Center"/>
+                    <Label Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"  Text="Talamban, Cebu City" HorizontalOptions="Center" Style="{StaticResource SecundaryText}"/>
+
+                    <!-- Rounded borders-->
+                    <Ellipse Grid.Row="1" HorizontalOptions="Start"  TranslationY="-322" TranslationX="20"  Fill="#efefef" VerticalOptions="End" HeightRequest="26" WidthRequest="26" StrokeThickness="0"/>
+                    <Ellipse Grid.Row="1" HorizontalOptions="End" TranslationY="-322" TranslationX="-20" Fill="#efefef" VerticalOptions="End" HeightRequest="26" WidthRequest="26" StrokeThickness="0"/>
+                </Grid>
+                
+            </Frame>
+
+
+            <Frame Grid.Row="2" Margin="30,20,30,0" HeightRequest="113">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,*">
+                    <Label Grid.Row="0" Grid.Column="0" Text="TIMELINE" TextColor="Silver" FontSize="14" CharacterSpacing="2"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Sept 26" Padding="0,0,15,0" FontSize="16" FontAttributes="Bold" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="Confirm received commodity, $181.94 is included in this month bills." FontSize="13" LineBreakMode="WordWrap"/>
+                    <Line Grid.Row="2" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" Margin="0,5,0,0"
+                               X1="260"
+                               StrokeThickness="0.5"
+                               Stroke="Silver"/>
+                    <Image Grid.Row="3" Grid.Column="0" HorizontalOptions="End" Source="{FontImage FontFamily=FontAwesome, Glyph={x:Static helpers:IconFont.CashMultiple},Size=30,Color=Blue}" TranslationY="3" BackgroundColor="Transparent" />
+                    <Label Grid.Row="3" Grid.Column="1" Padding="0,5,0,0" HorizontalOptions="Start" Text="jkc@gmail.com" HorizontalTextAlignment="Center" FontSize="15" FontAttributes="Bold"/>
+                </Grid>
+            </Frame>
+            
+            <!-- Paymnet buttons-->
+            <Label Grid.Row="3" HorizontalTextAlignment="Center" Margin="20,10,20,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Have problem about this bill?" FontSize="15" FontAttributes="Bold" TextColor="Silver"/>
+                        <Span Text=" Customer service" TextColor="#4e4e4e" FontAttributes="Bold" FontSize="15"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            
+            <Grid Grid.Row="4" ColumnDefinitions="*,*" Padding="15">
+                <Button Grid.Column="0"  
+                                ImageSource="{FontImage FontFamily=FontAwesome, Glyph={x:Static helpers:IconFont.ChevronDown},Size=30,Color=Black}" 
+                                Text="Pay Later" TextColor="Black" FontAttributes="Bold" BackgroundColor="#e4e4e4" 
+                                CornerRadius="10" HeightRequest="50" Margin="10,5,10,20"/>
+                <Button Grid.Column="1" Text="Pay now" TextColor="White" FontAttributes="Bold" 
+                                BackgroundColor="Black" CornerRadius="10" Margin="5,5,10,20" HeightRequest="50"  
+                                Command="{Binding PlaceOrdersCommand}" />
+            </Grid>
+            
+        </Grid>
+        
+        <!--#endregion-->
+        
+        <!--#region Pancake Design Corners--> 
+        
+        <!--<Grid ColumnSpacing="0" RowSpacing="0" RowDefinitions="Auto,*,100">
+
+            <StackLayout BackgroundColor="White" Grid.Row="0">
+                <pv:PancakeView  BackgroundColor="#282929" CornerRadius="0,0,110,0" HeightRequest="180">
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label FontSize="40" TextColor="White" FontFamily="CabinSketch" Text="FOOD APP"/>
+                        <Label x:Name="LabelName" FontSize="Subtitle" TextColor="White"/>
+                </StackLayout>
+                </pv:PancakeView>
+            </StackLayout>
+            
+            <ImageButton Source="{FontImage FontFamily=FontAwesome,
+                Glyph={x:Static helpers:IconFont.ArrowLeftThick},Size=30,Color=White}"
+                         Grid.Row="0" HorizontalOptions="Start"  Aspect="AspectFit" BackgroundColor="Transparent"
+                         VerticalOptions="Start" Margin="10,30" Clicked="ImageButton_Clicked"/>
+
+            <StackLayout BackgroundColor="#282929" Grid.Row="1">
+                <pv:PancakeView  BackgroundColor="White" CornerRadius="0,90,0,0">
+                <ListView x:Name="ListViewCartItems" Margin="20" SeparatorVisibility="None"
+                          ItemsSource="{Binding CartItems}" SelectionMode="None"
+                          Header="" HasUnevenRows="True">
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*,80,*,*,*">
+                                <Label Text="Id" Grid.Column="0" FontSize="Subtitle" TextColor="Black"/>
+                                <Label Text="Name" Grid.Column="1" FontSize="Subtitle" TextColor="Black"/>
+                                <Label Text="Price" Grid.Column="2" FontSize="Subtitle" TextColor="Black"/>
+                                <Label Text="Quanity" Grid.Column="3" FontSize="Subtitle" TextColor="Black"/>
+                                <Label Text="Cost" Grid.Column="4" FontSize="Subtitle" TextColor="Black"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                        <Grid Margin="3,10,3,3" ColumnDefinitions="*,80,*,*,*">
+                                        <Label Text="{Binding ProductId}" Grid.Column="0" FontSize="Subtitle" TextColor="Black"/>
+                                        <Label Text="{Binding ProductName}" Grid.Column="1" FontSize="Subtitle" TextColor="Black"/>
+                                        <Label Text="{Binding Price}" Grid.Column="2" FontSize="Subtitle" TextColor="Black"/>
+                                        <Label Text="{Binding Quantity}" Grid.Column="3" FontSize="Subtitle" TextColor="Black"/>
+                                        <Label Text="{Binding Cost}" Grid.Column="4" FontSize="Subtitle" TextColor="Black"/>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                </pv:PancakeView>
+            </StackLayout>
+            <pv:PancakeView Grid.Row="2"  BackgroundColor="#282929" CornerRadius="60,60,0,0">
+                <StackLayout Spacing="2">
+                    <Label Text="{Binding TotalCost ,StringFormat='Total: ₱{0:0,0.00}'}" TextColor="White"
+                           FontSize="Medium" VerticalOptions="CenterAndExpand"  HorizontalOptions="CenterAndExpand"/>
+                    <Button Text="Place Order" Padding="8,4" TextColor="Black"
+                            BackgroundColor="White" WidthRequest="130" FontSize="Subtitle" FontAttributes="Bold"
+                    Command="{Binding PlaceOrdersCommand}" VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="CenterAndExpand" CornerRadius="20"/>
+                </StackLayout>
+            </pv:PancakeView>
+        </Grid>-->
+        
+        <!--#endregion-->
+
+            </ScrollView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
