@@ -34,7 +34,7 @@ namespace FoodOrderApp
             }
             else
             {
-                MainPage = new NavigationPage(new MainTabbedPage());
+                MainPage = new NavigationPage(new ProductsView());
             }
         }
         protected override void OnStart()
